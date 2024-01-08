@@ -1,5 +1,4 @@
-# mlops_project
-End to End Mushroom Classification Project Using MLOPS 
+# End to End Mushroom Classification Project Using MLOPS 
 
 **EdiFungi: Prepare Machine Learning Model to Safeguard Foragers by Distinguishing Poisonous from Edible Mushrooms**
 
