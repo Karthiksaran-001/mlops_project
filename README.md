@@ -16,3 +16,14 @@ tool for mushroom identification that can helpprevent potentially deadly mushroo
 The overarching objective of this project is to develop a robust and accurate machine learning model capable of predicting the edibility status of mushrooms, discerning between poisonous and edible varieties, leveraging a comprehensive set of features that encapsulate various attributes such as cap shape, cap surface, gill characteristics, stem dimensions, veil properties, and spore print color. Through extensive analysis and predictive modeling, the goal is to create a reliable tool for differentiating between mushroom types, ensuring the safety of individuals engaging in mushroom foraging or related activities.
 
 
+## Steps to Execute the Project 
+
+1. Create a folder Structure for the Project
+
+```python
+python template.py
+```
+2. Create a Python environment for the Project and activate using bas
+```bash
+bash _init_setup.py
+```
