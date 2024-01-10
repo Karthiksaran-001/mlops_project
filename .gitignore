@@ -131,6 +131,7 @@ venv.bak/
 ##data & model
 experiments/Final_Data.csv
 *.joblib
+test.py
 
 # Spyder project settings
 .spyderproject
