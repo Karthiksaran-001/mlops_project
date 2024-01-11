@@ -3,8 +3,8 @@ import sys
 import pickle
 import numpy as np
 import pandas as pd
-from src.logger.logging import logging
-from src.exception.exception import customException
+from src.logger import logging
+from src.exception import CustomException
 
 from sklearn.metrics import classification_report  , accuracy_score 
 
@@ -18,7 +18,8 @@ def save_object(file_path, obj):
             pickle.dump(obj, file_obj)
 
     except Exception as e:
-        raise customException(e, sys)
+        logging.error("\t\t\t (Utils) :"+str(CustomException(e , sys))+ "\n")
+        raise CustomException(e , sys)
     
 def evaluate_model(X_train,y_train,X_test,y_test,models):
     try:
@@ -43,15 +44,15 @@ def evaluate_model(X_train,y_train,X_test,y_test,models):
         return report
 
     except Exception as e:
-        logging.info('Exception occured during model training')
-        raise customException(e,sys)
+        logging.error("\t\t\t (Utils) :"+str(CustomException(e , sys))+ "\n")
+        raise CustomException(e , sys)
     
 def load_object(file_path):
     try:
         with open(file_path,'rb') as file_obj:
             return pickle.load(file_obj)
     except Exception as e:
-        logging.info('Exception Occured in load_object function utils')
-        raise customException(e,sys)
+        logging.error("\t\t\t (Utils) :"+str(CustomException(e , sys))+ "\n")
+        raise CustomException(e , sys)
 
     

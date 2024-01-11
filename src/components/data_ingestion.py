@@ -2,10 +2,11 @@ import os
 import sys
 import pandas as pd
 import numpy as np
-from src.logger.logging import logging
-from src.exception.exception import customException
+from src.logger import logging
+from src.exception import CustomException
 from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
+import traceback
 from pathlib import Path
 
 
@@ -31,6 +32,9 @@ class DataIngestion:
             df.drop_duplicates(inplace=True)
             df.drop(columns= cols, inplace= True)
             logging.info("\t\t\t After delete & remove the duplicate and unwanted columns the overall shape is {} \n".format(df.shape))
+            df["class"] = df["class"].replace({"p" : 0 , "e" : 1})
+            df.columns = df.columns.str.replace('-', '_')
+            df.rename(columns = {"does_bruise_or_bleed" : "does-bruise-or-bleed"} , inplace = True)
             train_data , test_data = train_test_split(df , test_size=0.25)
             logging.info("\t\t\t Train Data Shape is : {} Train Data Shape is : {} \n".format(train_data.shape , test_data.shape))
             train_data.to_csv(self.ingestion_config.train_data_path , index = False)
@@ -39,8 +43,8 @@ class DataIngestion:
             return (self.ingestion_config.train_data_path , self.ingestion_config.test_data_path)
 
         except Exception as e:
-            logging.info()
-            raise customException(e , sys)
+            logging.error("\t\t\t (Utils) :"+str(CustomException(e , sys))+ "\n")
+            raise CustomException(e , sys)
 
 if __name__ == "__main__":
     obj = DataIngestion()

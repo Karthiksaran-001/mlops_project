@@ -4,6 +4,7 @@ numpy
 seaborn
 plotly 
 flask
+xgboost
 mlflow==2.2.2
 dvc
 
