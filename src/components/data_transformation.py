@@ -4,7 +4,6 @@ import pandas as pd
 import numpy as np
 from src.logger import logging
 from src.exception import CustomException
-from src.components.data_ingestion import DataIngestion
 from dataclasses import dataclass
 from pathlib import Path
 from sklearn.pipeline import Pipeline
@@ -123,9 +122,5 @@ class DataTransformation:
             
 
 
-if __name__ == "__main__":
+
     
-    dataobj = DataIngestion()
-    training_path , testing_path = dataobj.initate_data_ingestion()
-    transobj =  DataTransformation()
-    transobj.initate_data_transformation(training_path , testing_path)
