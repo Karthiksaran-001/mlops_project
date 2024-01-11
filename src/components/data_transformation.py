@@ -12,8 +12,8 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import OrdinalEncoder
 from sklearn.compose import ColumnTransformer
-from src.utils.utils import save_object , load_object
-
+from src.utils.utils import save_object , load_object 
+from src.utils.custom_transformation import CustomOHETransformer , CustomOutlierTransformer
 
 @dataclass
 class DataTransformationConfig:
@@ -24,32 +24,13 @@ class DataTransformationConfig:
 class DataTransformation:
     def __init__(self):
         self.data_transformation_config = DataTransformationConfig()
-
-    def outlier_transform(self , df:pd.DataFrame):
-        df["cap_diameter"] = np.where(df["cap_diameter"] > 14.175 , 14.175 , np.where(df["cap_diameter"] < -3.225 , -3.225 , df["cap_diameter"] ))
-        df["stem_height"] = np.where(df["stem_height"] > 11.83 , 11.83 , np.where(df["stem_height"] < 0.15 , 0.15 , df["stem_height"] ))
-        df["stem_width"] = np.where(df["stem_width"] > 29.77 , 29.77 , np.where(df["stem_width"] < -10.45 , -10.45 , df["stem_width"] ))
-        return df
-    
-    def transform_ohe(self,df: pd.DataFrame):
-        encoder = load_object(self.data_transformation_config.oh_encoder_path)
-        ohe = encoder.transform(df[encoder.feature_names_in_])
-        new_df = pd.DataFrame(ohe , columns = encoder.get_feature_names_out())
-        df.reset_index(drop=True, inplace=True)
-        new_df.reset_index(drop=True, inplace=True)
-        df.drop(columns=encoder.feature_names_in_ , axis = 1 , inplace= True)
-        df = pd.concat([df , new_df] , axis = 1)
-        return df
-
-
     
     def get_data_transformation(self):
         logging.info('Data Transformation initiated')
         try:
             numerical_cols = ['cap_diameter', 'stem_height','stem_width']
             categorical_cols = ['cap_shape', 'cap_surface', 'cap_color', 'gill_attachment', 'gill_color', 'stem_color', 'ring_type', 'habitat']
-            pass_through = ["does-bruise-or-bleed_t" , "season_s" , "season_u" , "season_w"]
-
+            pass_through = ["does-bruise-or-bleed" , "season"]
 
             cap_shape = ['o', 's', 'c', 'p', 'f', 'x', 'b']
             cap_surface = ['s', 'g', 'w', 'd', 'y', 'h', 'k', 'e', 't', 'i', 'l']
@@ -61,17 +42,22 @@ class DataTransformation:
             habitat = ['d', 'g', 'h', 'l', 'm', 'p', 'u', 'w']
 
             num_pipeline=Pipeline(
-                steps=[('imputer',SimpleImputer(strategy='median')),('scaler',StandardScaler())] )
+                steps=[
+                    ('custom_outlier' , CustomOutlierTransformer()),
+                    ('imputer',SimpleImputer(strategy='median')),
+                    ('scaler',StandardScaler())] )
 
             cat_pipeline=Pipeline(
                 steps=[
                 ('imputer',SimpleImputer(strategy='most_frequent')),
                 ('ordinalencoder',OrdinalEncoder(categories=[cap_shape,cap_surface,cap_color,gill_attachment,gill_color,stem_color,ring_type,habitat] , dtype=int))])
+            
+            custom_ohe = CustomOHETransformer(oh_encoder_path= self.data_transformation_config.oh_encoder_path)
 
             preprocessor=ColumnTransformer([
             ('num_pipeline',num_pipeline,numerical_cols),
             ('cat_pipeline',cat_pipeline,categorical_cols),
-            ('pass_through', 'passthrough', pass_through)
+            ('custom_ohe', custom_ohe, pass_through)
             ])
             
             logging.info('\t\t\t Finish the PreProcessing \n')
@@ -90,10 +76,6 @@ class DataTransformation:
             logging.info("\t\t\t read train and test data complete\n")
             logging.info(f'\t\t\t Train Dataframe Head : \n{train_df.head().to_string()}\n')
             logging.info(f'Test Dataframe Head : \n{test_df.head().to_string()}\n')
-            train_df = self.outlier_transform(train_df)
-            test_df = self.outlier_transform(test_df)
-            train_df = self.transform_ohe(train_df)
-            test_df = self.transform_ohe(test_df)
             logging.info('\t\t\t Finish Outlier Capping and One hot Encoder \n')
             preprocessing_obj = self.get_data_transformation()
             target_column_name = 'class'
