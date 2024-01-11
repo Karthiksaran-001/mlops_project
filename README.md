@@ -27,3 +27,8 @@ python template.py
 ```bash
 bash _init_setup.py
 ```
+3. To use the Web UI 
+```python
+python app.py
+```
+Check on : http://localhost:8000/predict
