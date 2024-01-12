@@ -1,0 +1,30 @@
+data_ingestion:
+  root_directory: artifacts/Data
+  local_data_file: artifacts/Data/Data.csv
+  train_data_file: artifacts/Data/train.csv
+  test_data_file: artifacts/Data/test.csv
+  remove_cols: ["gill-spacing" , "stem-root" , "stem-surface" , "veil-type" , "veil-color" , "spore-print-color","has-ring"]
+  output_mapping: {"p" : 0 , "e" : 1}
+  test_size: 0.25
+
+data_transformation:
+  ohe_model_path: artifacts/model/OneHotEncoder.pickle
+  updated_base_model_path: artifacts/model/preprocessor.pickle
+  target_col: class
+  numerical_cols:  ['cap_diameter', 'stem_height','stem_width']
+  categorical_cols: ['cap_shape', 'cap_surface', 'cap_color', 'gill_attachment', 'gill_color', 'stem_color', 'ring_type', 'habitat']
+  pass_through: ['does-bruise-or-bleed' , 'season']
+  cap_shape:  ['o', 's', 'c', 'p', 'f', 'x', 'b']
+  cap_surface:  ['s', 'g', 'w', 'd', 'y', 'h', 'k', 'e', 't', 'i', 'l']
+  cap_color:  ['o', 'g', 'r', 'p', 'y', 'n', 'u', 'b', 'e', 'w', 'k', 'l']
+  gill_attachment:  ['s', 'd', 'p', 'f', 'x', 'e', 'a']
+  gill_color:  ['o', 'g', 'r', 'p', 'f', 'y', 'n', 'b', 'u', 'e', 'w', 'k']
+  stem_color:  ['b', 'e', 'f', 'g', 'k', 'l', 'n', 'o', 'p', 'r', 'u', 'w', 'y']
+  ring_type:   ['g', 'r', 'z', 'f', 'p', 'm', 'e', 'l' , 'c']
+  habitat:  ['d', 'g', 'h', 'l', 'm', 'p', 'u', 'w']
+  
+
+model_trainer:
+  model_saved_path: artifacts/Model/model.pkl
+  models: {'LogisticRegression':LogisticRegression(class_weight='balanced', random_state=42 , solver='liblinear'),'RandomForest':RandomForestClassifier(bootstrap= False, max_depth= 20, max_features= "log2", min_samples_leaf= 3, min_samples_split= 6, n_estimators= 60),'XgBoost':XGBClassifier(objective='binary:logistic',eval_metric='logloss'),'DecisionTree':DecisionTreeClassifier(criterion='gini', splitter='best'),'KNN' :KNeighborsClassifier(n_neighbors=5),'NavieBayes' :BernoulliNB(alpha=1.0, binarize=0.0, fit_prior=True, class_prior=None),'SVM' : SVC(C=1.0 , class_weight='balanced')}
+

@@ -7,6 +7,9 @@ flask
 xgboost
 mlflow==2.2.2
 dvc
+python-box
+pyYaml
+ensure==1.0.2
 
 # dev requirements -
 
