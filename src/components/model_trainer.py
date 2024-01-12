@@ -6,6 +6,8 @@ import os
 import sys
 from dataclasses import dataclass
 from pathlib import Path
+from src.config import CONFIG_FILE_PATH
+from src.utils import read_yaml
 from src.utils.utils import save_object,evaluate_model
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
@@ -19,8 +21,9 @@ from sklearn.svm import SVC
 
 @dataclass 
 class ModelTrainerConfig:
-    trained_model_file_path = os.path.join('artifacts\Model','model.pkl')
-    
+    config_values =  read_yaml(CONFIG_FILE_PATH)
+    trained_model_file_path:Path = Path(config_values.model_trainer.model_saved_path)
+    models = dict(config_values.model_trainer.models) 
     
 class ModelTrainer:
     def __init__(self):
@@ -36,15 +39,7 @@ class ModelTrainer:
                 test_array[:,-1]
             )
 
-            models={
-            'LogisticRegression':LogisticRegression(class_weight='balanced', random_state=42 , solver='liblinear'),
-            'RandomForest': RandomForestClassifier(bootstrap= False, max_depth= 20, max_features= "log2", min_samples_leaf= 3, min_samples_split= 6, n_estimators= 60),
-            'XgBoost':XGBClassifier(objective='binary:logistic',eval_metric='logloss'),
-            'DecisionTree':DecisionTreeClassifier(criterion='gini', splitter='best'),
-            'KNN' : KNeighborsClassifier(n_neighbors=5),
-            'NavieBayes' : BernoulliNB(alpha=1.0, binarize=0.0, fit_prior=True, class_prior=None),
-            'SVM' : SVC(C=1.0 , class_weight='balanced')
-        }
+            models= {'LogisticRegression':LogisticRegression(class_weight='balanced', random_state=42 , solver='liblinear'),'RandomForest':RandomForestClassifier(bootstrap= False, max_depth= 20, max_features= "log2", min_samples_leaf= 3, min_samples_split= 6, n_estimators= 60),'XgBoost':XGBClassifier(objective='binary:logistic',eval_metric='logloss'),'DecisionTree':DecisionTreeClassifier(criterion='gini', splitter='best'),'KNN' :KNeighborsClassifier(n_neighbors=5),'NavieBayes' :BernoulliNB(alpha=1.0, binarize=0.0, fit_prior=True, class_prior=None),'SVM' : SVC(C=1.0 , class_weight='balanced')}
             
             model_report:dict=evaluate_model(X_train,y_train,X_test,y_test,models)
             print(model_report)
@@ -75,12 +70,5 @@ class ModelTrainer:
             raise CustomException(e , sys)
 
 
-if __name__ == "__main__":
-    dataobj = DataIngestion()
-    training_path , testing_path = dataobj.initate_data_ingestion()
-    transobj =  DataTransformation()
-    train_arr , test_arr = transobj.initate_data_transformation(training_path , testing_path)
-    trainingobj = ModelTrainer()
-    trainingobj.initate_model_training(train_arr , test_arr)
         
     

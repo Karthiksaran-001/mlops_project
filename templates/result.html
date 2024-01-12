@@ -1,1 +1,56 @@
-<h1> Based on your Input the Mushroom is : {{final_result}} </h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prediction Result</title>
+<style>
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: #f5f5f5; /* Light background for contrast */
+  text-align: center; /* Center content horizontally */
+}
+
+h1 {
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+img {
+  width: 100%; /* Ensure image takes full width */
+  border-radius: 10px; /* Rounded corners for visual appeal */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+}
+.image-container {
+    text-align: center; /* Center the image horizontally */
+    margin: 0 auto; /* Center the image vertically */
+    overflow: hidden; /* Hide any overflowing parts of the image */
+  }
+  
+.image-container img {
+    max-width: 500px; /* Specify desired image width */
+    height: auto; /* Maintain aspect ratio */
+  }
+  
+@media (min-width: 768px) { /* Adjust spacing for larger screens */
+  body {
+    padding: 40px;
+  }
+
+  img {
+    margin-bottom: 30px;
+  }
+}  
+</style>
+</head>
+<body>
+<h1>Based on your Input, the Mushroom is: {{ final_result }}</h1>
+<div class="image-container">
+    <img src="{{ url_for('static', filename=image) }}" alt="Image">
+</div>
+
+
+</body>
+</html>

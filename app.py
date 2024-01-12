@@ -38,10 +38,12 @@ def predict_datapoint():
         
         if pred[0] == 0:
             result = "Poisonous"
+            out_image = "poisonous_image.webp"
         else:
             result = "Edibile"
+            out_image = "healthy_mushroom.jpg"
 
-        return render_template("result.html",final_result=result)
+        return render_template("result.html",final_result=result , image = out_image)
 
 
 

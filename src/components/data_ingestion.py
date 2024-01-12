@@ -15,6 +15,7 @@ from pathlib import Path
 @dataclass
 class DataIngestionConfig:
     config_values =  read_yaml(CONFIG_FILE_PATH)
+    root_directory:str = Path(config_values.data_ingestion.root_directory)
     raw_data_path:str = Path(config_values.data_ingestion.local_data_file)
     train_data_path:str= Path(config_values.data_ingestion.train_data_file)
     test_data_path:str= Path(config_values.data_ingestion.test_data_file)
@@ -30,7 +31,7 @@ class DataIngestion:
     def initate_data_ingestion(self):
         logging.info("\t\t\t Step 1 : Data Ingestion Started \n")
         try:
-            os.makedirs("artifacts\Data" , exist_ok=True)
+            os.makedirs(self.ingestion_config.root_directory , exist_ok=True)
             df = pd.read_csv(self.ingestion_config.raw_data_path)
             logging.info("\t\t\t Total Shape of Data : {}rows {}columns \n".format(df.shape[0], df.shape[1]))
             logging.info("\t\t\t Total Duplicate records : {} \n".format(df.duplicated().sum()))

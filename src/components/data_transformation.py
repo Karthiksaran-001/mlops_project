@@ -8,17 +8,24 @@ from dataclasses import dataclass
 from pathlib import Path
 from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
-from sklearn.preprocessing import OneHotEncoder
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import OrdinalEncoder
 from sklearn.compose import ColumnTransformer
+from src.config import CONFIG_FILE_PATH
+from src.utils import read_yaml
 from src.utils.utils import save_object , load_object 
 from src.utils.custom_transformation import CustomOHETransformer , CustomOutlierTransformer
 
 @dataclass
 class DataTransformationConfig:
-    oh_encoder_path:str=os.path.join("artifacts\Model","OneHotEncoder.pickle")
-    preprocessor_obj_file_path=os.path.join('artifacts\Model','preprocessor.pkl')
+    config_values =  read_yaml(CONFIG_FILE_PATH)
+    oh_encoder_path:Path = Path(config_values.data_transformation.ohe_model_path)
+    preprocessor_obj_file_path:Path = Path(config_values.data_transformation.preprocess_path)
+    target_class:str = str(config_values.data_transformation.target_col)
+    numerical_cols = list(config_values.data_transformation.num_cols)
+    categorical_cols = list(config_values.data_transformation.cat_cols)
+    ohe_cols = list(config_values.data_transformation.ohe_cols)
+
 
 
 class DataTransformation:
@@ -28,9 +35,9 @@ class DataTransformation:
     def get_data_transformation(self):
         logging.info('Data Transformation initiated')
         try:
-            numerical_cols = ['cap_diameter', 'stem_height','stem_width']
-            categorical_cols = ['cap_shape', 'cap_surface', 'cap_color', 'gill_attachment', 'gill_color', 'stem_color', 'ring_type', 'habitat']
-            pass_through = ["does-bruise-or-bleed" , "season"]
+            numerical_cols = self.data_transformation_config.numerical_cols
+            categorical_cols = self.data_transformation_config.categorical_cols
+            pass_through = self.data_transformation_config.ohe_cols
 
             cap_shape = ['o', 's', 'c', 'p', 'f', 'x', 'b']
             cap_surface = ['s', 'g', 'w', 'd', 'y', 'h', 'k', 'e', 't', 'i', 'l']
@@ -78,7 +85,7 @@ class DataTransformation:
             logging.info(f'Test Dataframe Head : \n{test_df.head().to_string()}\n')
             logging.info('\t\t\t Finish Outlier Capping and One hot Encoder \n')
             preprocessing_obj = self.get_data_transformation()
-            target_column_name = 'class'
+            target_column_name = self.data_transformation_config.target_class
 
             input_feature_train_df = train_df.drop(columns=target_column_name,axis=1)
             target_feature_train_df=train_df[target_column_name]
