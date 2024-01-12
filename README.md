@@ -32,3 +32,6 @@ bash _init_setup.py
 python app.py
 ```
 Check on : http://localhost:8000/predict
+
+**Prediction Web APP Sample**
+![Animated GIF](https://github.com/Karthiksaran-001/mlops_project/blob/main/ScreenRecording.gif)
