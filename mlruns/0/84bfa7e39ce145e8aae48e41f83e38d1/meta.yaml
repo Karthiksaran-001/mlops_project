@@ -1,0 +1,15 @@
+artifact_uri: file:///F:/DS-Projects/mlops_project/mlruns/0/84bfa7e39ce145e8aae48e41f83e38d1/artifacts
+end_time: 1705128386485
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 84bfa7e39ce145e8aae48e41f83e38d1
+run_name: mercurial-crow-111
+run_uuid: 84bfa7e39ce145e8aae48e41f83e38d1
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1705128264264
+status: 3
+tags: []
+user_id: admin

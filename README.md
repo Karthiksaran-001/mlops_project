@@ -27,7 +27,13 @@ python template.py
 ```bash
 bash _init_setup.py
 ```
-3. To use the Web UI 
+3. Training Pipeline
+```python 
+cd src/pipeline/
+python training_pipeline.py
+```
+
+4. To use the Web UI 
 ```python
 python app.py
 ```
@@ -35,3 +41,10 @@ Check on : http://localhost:8000/predict
 
 **Prediction Web APP Sample**
 ![Animated GIF](https://github.com/Karthiksaran-001/mlops_project/blob/main/ScreenRecording.gif)
+
+
+5. To view Model Tracking
+```bash
+mlflow ui
+```
+Serving on http://127.0.0.1:5000

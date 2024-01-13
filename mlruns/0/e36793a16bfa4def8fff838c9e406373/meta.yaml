@@ -1,0 +1,15 @@
+artifact_uri: file:///F:/DS-Projects/mlops_project/mlruns/0/e36793a16bfa4def8fff838c9e406373/artifacts
+end_time: 1705128832127
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: e36793a16bfa4def8fff838c9e406373
+run_name: abundant-snake-5
+run_uuid: e36793a16bfa4def8fff838c9e406373
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1705128815928
+status: 3
+tags: []
+user_id: admin
