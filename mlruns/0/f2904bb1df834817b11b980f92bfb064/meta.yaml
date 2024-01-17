@@ -1,0 +1,15 @@
+artifact_uri: file:///F:/DS-Projects/mlops_project/mlruns/0/f2904bb1df834817b11b980f92bfb064/artifacts
+end_time: 1705506898554
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: f2904bb1df834817b11b980f92bfb064
+run_name: abrasive-boar-882
+run_uuid: f2904bb1df834817b11b980f92bfb064
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1705506821865
+status: 3
+tags: []
+user_id: admin

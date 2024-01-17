@@ -23,7 +23,6 @@ from sklearn.svm import SVC
 class ModelTrainerConfig:
     config_values =  read_yaml(CONFIG_FILE_PATH)
     trained_model_file_path:Path = Path(config_values.model_trainer.model_saved_path)
-    models = dict(config_values.model_trainer.models) 
     
 class ModelTrainer:
     def __init__(self):

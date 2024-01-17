@@ -1,0 +1,25 @@
+stages:
+  training_pipeline: 
+    cmd: python src/pipeline/training_pipeline.py
+    deps:
+      - src/components/data_ingestion.py
+      - src/components/data_transformation.py
+      - src/components/model_trainer.py
+      - src/components/model_evaluation.py
+      - config/config.yaml
+      - artifacts/Data/Data.csv 
+      - artifacts/Model/OneHotEncoder.pickle
+    outs:
+      - artifacts/Data/train.csv
+      - artifacts/Data/test.csv
+      - artifacts/Model/model.pkl
+      - artifacts/Model/preprocessor.pkl 
+
+  webapp_pipeline:
+    cmd: python app.py
+    deps:
+      - src/pipeline/prediction_pipeline.py
+      - artifacts/Model/model.pkl
+      - artifacts/Model/preprocessor.pkl
+      - artifacts/Model/OneHotEncoder.pickle
+

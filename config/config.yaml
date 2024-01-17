@@ -18,5 +18,5 @@ data_transformation:
 
 model_trainer:
   model_saved_path: artifacts/Model/model.pkl
-  models: {'LogisticRegression':LogisticRegression(class_weight='balanced', random_state=42 , solver='liblinear'),'RandomForest':RandomForestClassifier(bootstrap= False, max_depth= 20, max_features= "log2", min_samples_leaf= 3, min_samples_split= 6, n_estimators= 60),'XgBoost':XGBClassifier(objective='binary:logistic',eval_metric='logloss'),'DecisionTree':DecisionTreeClassifier(criterion='gini', splitter='best'),'KNN' :KNeighborsClassifier(n_neighbors=5),'NavieBayes' :BernoulliNB(alpha=1.0, binarize=0.0, fit_prior=True, class_prior=None),'SVM' : SVC(C=1.0 , class_weight='balanced')}
+  
 

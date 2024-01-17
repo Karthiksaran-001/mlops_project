@@ -10,6 +10,8 @@ dvc
 python-box
 pyYaml
 ensure==1.0.2
+dvc
+
 
 # dev requirements -
 
